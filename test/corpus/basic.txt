@@ -1,0 +1,566 @@
+================================================================================
+Basic expressions
+================================================================================
+
+42;
+"hello";
+true;
+false;
+null;
+undefined;
+
+--------------------------------------------------------------------------------
+
+(program
+  (expression_statement
+    (number))
+  (expression_statement
+    (string
+      (string_fragment)))
+  (expression_statement
+    (true))
+  (expression_statement
+    (false))
+  (expression_statement
+    (null))
+  (expression_statement
+    (undefined)))
+
+================================================================================
+Variable declarations
+================================================================================
+
+var x = 10;
+var y = 20, z = 30;
+let a = "test";
+const PI = 3.14;
+
+--------------------------------------------------------------------------------
+
+(program
+  (variable_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (number)))
+  (variable_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (number))
+    (variable_declarator
+      name: (identifier)
+      value: (number)))
+  (variable_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (string
+        (string_fragment))))
+  (variable_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (number))))
+
+================================================================================
+Function declarations
+================================================================================
+
+function hello(name) {
+    return "Hello, " + name;
+}
+
+var add = function(a, b) {
+    return a + b;
+};
+
+--------------------------------------------------------------------------------
+
+(program
+  (function_declaration
+    name: (identifier)
+    parameters: (formal_parameters
+      (identifier))
+    body: (statement_block
+      (return_statement
+        (binary_expression
+          left: (string
+            (string_fragment))
+          right: (identifier)))))
+  (variable_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (function_expression
+        parameters: (formal_parameters
+          (identifier)
+          (identifier))
+        body: (statement_block
+          (return_statement
+            (binary_expression
+              left: (identifier)
+              right: (identifier))))))))
+
+================================================================================
+If statement
+================================================================================
+
+if (x > 0) {
+    core.debug("positive");
+} else {
+    core.debug("non-positive");
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (if_statement
+    condition: (binary_expression
+      left: (identifier)
+      right: (number))
+    consequence: (statement_block
+      (expression_statement
+        (call_expression
+          function: (member_expression
+            object: (identifier)
+            property: (property_identifier))
+          arguments: (arguments
+            (string
+              (string_fragment))))))
+    alternative: (else_clause
+      (statement_block
+        (expression_statement
+          (call_expression
+            function: (member_expression
+              object: (identifier)
+              property: (property_identifier))
+            arguments: (arguments
+              (string
+                (string_fragment)))))))))
+
+================================================================================
+For loop
+================================================================================
+
+for (var i = 0; i < 10; i++) {
+    core.debug(i);
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (for_statement
+    initializer: (variable_declaration
+      (variable_declarator
+        name: (identifier)
+        value: (number)))
+    condition: (binary_expression
+      left: (identifier)
+      right: (number))
+    increment: (update_expression
+      argument: (identifier))
+    body: (statement_block
+      (expression_statement
+        (call_expression
+          function: (member_expression
+            object: (identifier)
+            property: (property_identifier))
+          arguments: (arguments
+            (identifier)))))))
+
+================================================================================
+For-in loop
+================================================================================
+
+for (var key in obj) {
+    core.debug(key);
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (for_in_statement
+    left: (identifier)
+    right: (identifier)
+    body: (statement_block
+      (expression_statement
+        (call_expression
+          function: (member_expression
+            object: (identifier)
+            property: (property_identifier))
+          arguments: (arguments
+            (identifier)))))))
+
+================================================================================
+While loop
+================================================================================
+
+while (x > 0) {
+    x--;
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (while_statement
+    condition: (binary_expression
+      left: (identifier)
+      right: (number))
+    body: (statement_block
+      (expression_statement
+        (update_expression
+          argument: (identifier))))))
+
+================================================================================
+Try-catch-finally
+================================================================================
+
+try {
+    riskyOperation();
+} catch (e) {
+    handleError(e);
+} finally {
+    cleanup();
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (try_statement
+    body: (statement_block
+      (expression_statement
+        (call_expression
+          function: (identifier)
+          arguments: (arguments))))
+    handler: (catch_clause
+      parameter: (identifier)
+      body: (statement_block
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (identifier))))))
+    finalizer: (finally_clause
+      body: (statement_block
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments)))))))
+
+================================================================================
+Object literals
+================================================================================
+
+var obj = {
+    name: "test",
+    count: 42,
+    method: function() {
+        return this.name;
+    }
+};
+
+--------------------------------------------------------------------------------
+
+(program
+  (variable_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (object
+        (pair
+          key: (property_identifier)
+          value: (string
+            (string_fragment)))
+        (pair
+          key: (property_identifier)
+          value: (number))
+        (pair
+          key: (property_identifier)
+          value: (function_expression
+            parameters: (formal_parameters)
+            body: (statement_block
+              (return_statement
+                (member_expression
+                  object: (this)
+                  property: (property_identifier))))))))))
+
+================================================================================
+Array literals
+================================================================================
+
+var arr = [1, 2, 3, "four", true];
+
+--------------------------------------------------------------------------------
+
+(program
+  (variable_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (array
+        (number)
+        (number)
+        (number)
+        (string
+          (string_fragment))
+        (true)))))
+
+================================================================================
+Member expressions and call expressions
+================================================================================
+
+core.debug("Hello");
+LandscapeMgr.setFlagAtmosphere(true);
+obj["key"];
+arr[0];
+
+--------------------------------------------------------------------------------
+
+(program
+  (expression_statement
+    (call_expression
+      function: (member_expression
+        object: (identifier)
+        property: (property_identifier))
+      arguments: (arguments
+        (string
+          (string_fragment)))))
+  (expression_statement
+    (call_expression
+      function: (member_expression
+        object: (identifier)
+        property: (property_identifier))
+      arguments: (arguments
+        (true))))
+  (expression_statement
+    (subscript_expression
+      object: (identifier)
+      index: (string
+        (string_fragment))))
+  (expression_statement
+    (subscript_expression
+      object: (identifier)
+      index: (number))))
+
+================================================================================
+Binary operators
+================================================================================
+
+var a = 1 + 2 * 3;
+var b = 10 / 5 - 1;
+var c = x && y || z;
+var d = a === b && c !== d;
+
+--------------------------------------------------------------------------------
+
+(program
+  (variable_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (binary_expression
+        left: (number)
+        right: (binary_expression
+          left: (number)
+          right: (number)))))
+  (variable_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (binary_expression
+        left: (binary_expression
+          left: (number)
+          right: (number))
+        right: (number))))
+  (variable_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (binary_expression
+        left: (binary_expression
+          left: (identifier)
+          right: (identifier))
+        right: (identifier))))
+  (variable_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (binary_expression
+        left: (binary_expression
+          left: (identifier)
+          right: (identifier))
+        right: (binary_expression
+          left: (identifier)
+          right: (identifier))))))
+
+================================================================================
+Ternary expression
+================================================================================
+
+var result = x > 0 ? "positive" : "negative";
+
+--------------------------------------------------------------------------------
+
+(program
+  (variable_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (ternary_expression
+        condition: (binary_expression
+          left: (identifier)
+          right: (number))
+        consequence: (string
+          (string_fragment))
+        alternative: (string
+          (string_fragment))))))
+
+================================================================================
+Switch statement
+================================================================================
+
+switch (value) {
+    case 1:
+        doSomething();
+        break;
+    case 2:
+        doOther();
+        break;
+    default:
+        doDefault();
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (switch_statement
+    value: (identifier)
+    body: (switch_body
+      (switch_case
+        value: (number)
+        body: (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments)))
+        body: (break_statement))
+      (switch_case
+        value: (number)
+        body: (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments)))
+        body: (break_statement))
+      (switch_default
+        body: (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments)))))))
+
+================================================================================
+Comments
+================================================================================
+
+// Single line comment
+/* Multi-line
+   comment */
+var x = 1;
+
+--------------------------------------------------------------------------------
+
+(program
+  (comment)
+  (comment)
+  (variable_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (number))))
+
+================================================================================
+Include statement (Stellarium-specific)
+================================================================================
+
+include("common.inc");
+include("utils.inc");
+
+--------------------------------------------------------------------------------
+
+(program
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (arguments
+        (string
+          (string_fragment)))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (arguments
+        (string
+          (string_fragment))))))
+
+================================================================================
+Hash-bang line
+================================================================================
+
+#!/usr/bin/env stellarium
+core.debug("Hello");
+
+--------------------------------------------------------------------------------
+
+(program
+  (hash_bang_line)
+  (expression_statement
+    (call_expression
+      function: (member_expression
+        object: (identifier)
+        property: (property_identifier))
+      arguments: (arguments
+        (string
+          (string_fragment))))))
+
+================================================================================
+Stellarium API usage
+================================================================================
+
+core.clear("starchart");
+core.selectObjectByName("Mars");
+LabelMgr.labelScreen("Hello", 100, 200, true, 20, "#ff0000");
+StelMovementMgr.autoZoomIn(6);
+core.wait(3);
+
+--------------------------------------------------------------------------------
+
+(program
+  (expression_statement
+    (call_expression
+      function: (member_expression
+        object: (identifier)
+        property: (property_identifier))
+      arguments: (arguments
+        (string
+          (string_fragment)))))
+  (expression_statement
+    (call_expression
+      function: (member_expression
+        object: (identifier)
+        property: (property_identifier))
+      arguments: (arguments
+        (string
+          (string_fragment)))))
+  (expression_statement
+    (call_expression
+      function: (member_expression
+        object: (identifier)
+        property: (property_identifier))
+      arguments: (arguments
+        (string
+          (string_fragment))
+        (number)
+        (number)
+        (true)
+        (number)
+        (string
+          (string_fragment)))))
+  (expression_statement
+    (call_expression
+      function: (member_expression
+        object: (identifier)
+        property: (property_identifier))
+      arguments: (arguments
+        (number))))
+  (expression_statement
+    (call_expression
+      function: (member_expression
+        object: (identifier)
+        property: (property_identifier))
+      arguments: (arguments
+        (number)))))

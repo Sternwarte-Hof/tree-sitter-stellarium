@@ -1,0 +1,43 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "stellarium",
+      "camelcase": "Stellarium",
+      "title": "Stellarium Scripting Engine",
+      "scope": "source.stellarium",
+      "file-types": [
+        "inc",
+        "ssc"
+      ],
+      "injection-regex": "^stellarium$",
+      "class-name": "TreeSitterStellarium"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Parser for Stellarium Scripting Engine",
+    "authors": [
+      {
+        "name": "Tobias Feigel",
+        "email": "info@feigel.it",
+        "url": "https://www.feigel.it"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/fits-ki/tree-sitter-stellarium",
+      "funding": "https://www.feigel.it"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "java": false,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": false
+  }
+}
