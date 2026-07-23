@@ -4,11 +4,12 @@ A [Tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammar for the [Ste
 
 ## About
 
-Stellarium is a free open source planetarium application. It includes a scripting engine based on ECMAScript (JavaScript) via the Qt Scripting Engine. This parser enables syntax highlighting, code navigation, and other IDE features for Stellarium scripts (`.ssc` and `.inc` files).
+Stellarium is a free open source planetarium application. Its scripts are evaluated by one of two Qt ECMAScript engines, depending on how Stellarium was built. This parser enables syntax highlighting, code navigation, and other IDE features for Stellarium scripts (`.ssc` and `.inc` files).
 
 ## Features
 
-- Full ES5-compatible JavaScript syntax (as used by Qt Script)
+- Parse compatibility with all 90 scripts and includes in the pinned Stellarium 26.2 corpus
+- Portable ECMAScript statement, expression, literal, ASI, and regular-expression forms used by Stellarium scripts
 - Stellarium-specific API object highlighting
 - Comments (single-line and multi-line)
 - All control flow statements (if/else, for, while, switch, try/catch)
@@ -17,6 +18,10 @@ Stellarium is a free open source planetarium application. It includes a scriptin
 - Binary, unary, and ternary operators
 - Regular expressions
 - Hash-bang line support
+
+The initial `0.1.x` grammar does not yet claim the complete Qt 6.2+
+ECMAScript 2016 syntax profile. Its verified compatibility boundary is the
+pinned Stellarium 26.2 corpus plus the portable syntax fixtures in this package.
 
 ## Installation
 
@@ -132,4 +137,4 @@ MIT
 
 - [Stellarium Scripting Documentation](https://stellarium.org/doc/head/scripting.html)
 - [Tree-sitter Documentation](https://tree-sitter.github.io/tree-sitter/)
-- [ECMAScript 5.1 Specification](https://262.ecma-international.org/5.1/)
+- [ECMAScript 2016 Specification](https://262.ecma-international.org/7.0/)

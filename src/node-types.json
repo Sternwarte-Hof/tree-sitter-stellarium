@@ -164,6 +164,10 @@
         "named": true
       },
       {
+        "type": "debugger_statement",
+        "named": true
+      },
+      {
         "type": "declaration",
         "named": true
       },
@@ -676,6 +680,11 @@
         ]
       }
     }
+  },
+  {
+    "type": "debugger_statement",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "do_statement",
@@ -2064,6 +2073,10 @@
   },
   {
     "type": "continue",
+    "named": false
+  },
+  {
+    "type": "debugger",
     "named": false
   },
   {
