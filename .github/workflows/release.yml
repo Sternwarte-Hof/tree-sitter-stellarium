@@ -6,10 +6,10 @@ on:
 
 jobs:
   release:
-    uses: tree-sitter/workflows/.github/workflows/release.yml@main
+    uses: tree-sitter/workflows/.github/workflows/release.yml@cc03699ad21049475b5762cd1c38a35146691e85
     permissions:
       contents: write
       id-token: write
       attestations: write
     with:
-      generate: true
+      generate: false
