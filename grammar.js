@@ -98,6 +98,7 @@ export default grammar({
     // ============================================
 
     statement: $ => choice(
+      $.debugger_statement,
       $.expression_statement,
       $.declaration,
       $.statement_block,
@@ -274,6 +275,11 @@ export default grammar({
     continue_statement: $ => seq(
       'continue',
       optional(field('label', alias($.identifier, $.statement_identifier))),
+      $._semicolon,
+    ),
+
+    debugger_statement: $ => seq(
+      'debugger',
       $._semicolon,
     ),
 
@@ -626,7 +632,20 @@ export default grammar({
       optional(field('flags', $.regex_flags)),
     ),
 
-    regex_pattern: _ => token.immediate(prec(-1, /[^\r\n\/\\]+/)),
+    regex_pattern: _ => token.immediate(prec(-1,
+      repeat1(choice(
+        seq(
+          '[',
+          repeat(choice(
+            seq('\\', /./),
+            /[^\]\n\\]/,
+          )),
+          ']',
+        ),
+        seq('\\', /./),
+        /[^/\\\[\n]/,
+      )),
+    )),
 
     regex_flags: _ => token.immediate(/[gimsuy]+/),
 
